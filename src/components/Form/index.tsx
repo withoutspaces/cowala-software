@@ -1,6 +1,7 @@
 import React, { useState} from "react";
+
 import { useForm } from "react-hook-form";
-import api from "../../services/client";
+import axios from "axios";
 
 import "./style.css";
 
@@ -9,9 +10,9 @@ const Form = () => {
     const [error, setError] = useState(false)
 
 
-    async function getIp(){
-        api
-        .get('')
+    function getIp(){
+        
+        axios.get('https://ip-fast.com/api/ip')
         .then((response) => {
             setUserIp(response.data);
             console.log(userIp)
@@ -46,9 +47,7 @@ const Form = () => {
               <input type="text" name="ip" value={userIp} readOnly />
             </div>
             <div className="ip-button">
-                <button onClick={getIp}>
-                  ENCONTRAR IP
-                </button>
+                <input type="button" value="ENCONTRAR IP" onClick={getIp}/>
             </div>
           </div>
           <div className="btn-footer">

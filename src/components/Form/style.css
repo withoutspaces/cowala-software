@@ -38,7 +38,7 @@ label {
   align-items: center;
 }
 
-.ip-button button {
+.ip-button input {
   border: none;
   background-color: #00D9D0;
   color: #0A1633;
