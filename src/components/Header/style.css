@@ -1,0 +1,9 @@
+.header-container {
+    background-color: #0A1633;
+  }
+  
+  .logo-container{
+    display: flex;
+    align-items: center;
+  
+  }
