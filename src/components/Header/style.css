@@ -1,9 +1,21 @@
 .header-container {
+    display: flex;
+    align-items: center;
     background-color: #0A1633;
+    height: 110px;
   }
   
   .logo-container{
     display: flex;
     align-items: center;
   
+  }
+
+  #logo {
+    margin: 15px 24px 15px 24px;
+    width: 5rem;
+  }
+
+  #logo-name {
+    width: 14rem;
   }

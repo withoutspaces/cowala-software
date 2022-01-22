@@ -7,8 +7,8 @@ const Header = () => {
     return (
         <div className="header-container">
             <div className="logo-container">
-                <img src={Logo} alt="Logo Cowala" />
-                <img src={LogoName} alt="Cowala Software" />
+                <img src={Logo} alt="Logo Cowala" id='logo' />
+                <img src={LogoName} alt="Cowala Software" id='logo-name'/>
             </div>
         </div>
     );
