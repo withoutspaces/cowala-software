@@ -1,30 +1,33 @@
 import React, { useState, useEffect } from "react";
 
 import api from "../../services/client";
+import InputMask from 'react-input-mask'
 
 import "./style.css";
 
-const initialValues = {
-  name: '',
-  occupation: '',
-  phone: '',
-  ip: '',
+interface IuserData {
+  name?: string
+  phone?: string
+  occupation?: string
+  ip?: string
 }
-
 const Form = () => {
   const [userIp, setUserIp] = useState('');
-  const [inputs, setInputs] = useState(initialValues);
-  const [recoveredInputs, setRecoveredInputs] = useState(initialValues);
-
+  const [inputs, setInputs] = useState<IuserData>({});
+  const [recoveredData, setRecoveredData] = useState<IuserData>({});
+  
   useEffect(() => {
     recoverUserData()
   },[])
 
   function recoverUserData() {
     let recoverInputs = localStorage.getItem('inputs');
+    let ip = localStorage.getItem('ip')
     let recovered = recoverInputs !== null ? JSON.parse(recoverInputs) : {};
-    setRecoveredInputs(recovered);
-    console.log(recovered);
+    if (ip) setUserIp(ip)
+    setRecoveredData(recovered);
+    setInputs(recoveredData);
+    console.log(recoveredData)
   }
 
   function onChange(event:any) {
@@ -38,17 +41,16 @@ const Form = () => {
     event.preventDefault();
 
     localStorage.setItem('inputs', JSON.stringify(inputs))
-
+    localStorage.setItem('ip', userIp)
     alert(JSON.stringify(inputs));
   }
 
 
   function handleClearInputs() {
-    setRecoveredInputs(initialValues);
-    setInputs(initialValues);
+    setRecoveredData({});
+    setInputs({});
     setUserIp('');
     localStorage.clear();
-    console.log(recoveredInputs)
   }
 
 
@@ -59,7 +61,7 @@ const Form = () => {
         setUserIp(response.data);
       })
     .catch((err) => {
-        console.log('Opa...' + err);
+        alert('Aconteceu um erro: ' + err);
     })
   }
 
@@ -68,13 +70,14 @@ const Form = () => {
     <div className="form-container">
 
       <div className="form-info">
+
         <form onSubmit={onSubmit}>
           <div className="fields" id="name">
             <label>Nome</label>
             <input 
               type="text" 
               name="name"
-              defaultValue={recoveredInputs.name || ""}
+              defaultValue={recoveredData.name}
               onChange={onChange}
               required
             />
@@ -87,19 +90,21 @@ const Form = () => {
                 type="text" 
                 name="occupation" 
                 onChange={onChange}
-                defaultValue={recoveredInputs.occupation || ""}
+                defaultValue={recoveredData.occupation}
                 required
               />
             </div>
 
             <div className="fields">
               <label>Celular</label>
-              <input
-                type="text"
+              <InputMask 
                 name="phone"
+                type="text"
                 onChange={onChange}
-                defaultValue={recoveredInputs.phone || ""}
                 required
+                mask='(99) 99999-9999'
+                maskPlaceholder='(99) 9999-9999'
+                defaultValue={recoveredData.phone}
               />
             </div>
           </div>
@@ -110,9 +115,9 @@ const Form = () => {
               <input 
                 type="text"
                 name="ip"
-                readOnly 
-                value={userIp ? userIp : recoveredInputs.ip || ""} 
                 onChange={onChange}
+                value={userIp ? userIp : recoveredData.ip} 
+                readOnly
                 required
               />
             </div>
